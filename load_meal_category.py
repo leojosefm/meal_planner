@@ -2,6 +2,11 @@ import os
 import requests
 from neo4j import GraphDatabase
 
+
+# Wait until Neo4j is available
+time.sleep(10)
+
+
 # Neo4j connection details from environment variables
 neo4j_url = os.getenv("NEO4J_URL", "bolt://localhost:7687")
 neo4j_user = os.getenv("NEO4J_USER", "neo4j")

@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  neo4j:
+    image: neo4j:latest
+    container_name: neo4j
+    environment:
+      - NEO4J_AUTH=neo4j/test_password
+    ports:
+      - "7474:7474"  # Neo4j browser
+      - "7687:7687"  # Bolt protocol
+    volumes:
+      - neo4j_data:/data  # Mounts a volume for Neo4j data persistence
+
+  load-script:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - neo4j
+    environment:
+      - NEO4J_URL=bolt://neo4j:7687
+      - NEO4J_USER=neo4j
+      - NEO4J_PASSWORD=test_password
+
+volumes:
+  neo4j_data:

@@ -13,6 +13,17 @@ base_url = "https://www.themealdb.com/api/json/v1/1/search.php?f="
 # Neo4j connection setup
 driver = GraphDatabase.driver(neo4j_url, auth=(neo4j_user, neo4j_password))
 
+def is_initialized():
+    # Check if a "DataLoad" flag node exists
+    with driver.session() as session:
+        result = session.run("MATCH (n:DataLoad_meal {status: 'completed'}) RETURN n LIMIT 1")
+        return result.single() is not None
+    
+def create_flag_node():
+    # Create a "DataLoad" flag node to indicate initialization is done
+    with driver.session() as session:
+        session.run("MERGE (:DataLoad_meal {status: 'completed'})")
+
 
 def create_nodes_from_meals():
     with driver.session() as session:
@@ -68,7 +79,14 @@ def create_nodes_from_meals():
 
 
 # Run the script
-create_nodes_from_meals()
+
+if not is_initialized():
+    create_nodes_from_meals()
+    create_flag_node()
+    print("Meal data loaded into Neo4j successfully.")
+else:
+    print("Data already loaded, skipping initialization.")
+
 driver.close()
 
-print("Meal data loaded into Neo4j successfully.")
+

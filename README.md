@@ -19,6 +19,7 @@ The project is based on Neo4j, a graph database, which models:
 
 #### Cypher Query
 Cypher, Neo4j's query language, allows you to search for meals based on available ingredients. Here's an example query:
+I want to make a Beef dish with as many items that's available 
 
 ``` 
 MATCH (m:Meal)-[:HAS_INGREDIENT]->(i:Ingredient)

@@ -1,7 +1,7 @@
 import os
 import requests
 from neo4j import GraphDatabase
-
+import time
 
 # Wait until Neo4j is available
 time.sleep(10)
@@ -70,6 +70,7 @@ def create_nodes_from_meals():
                 if category:
                     session.run("""
                         MERGE (c:Category {title: $category})
+                        WITH c
                         MATCH (m:Meal {title: $title})
                         MERGE (m)-[:BELONGS_TO_CATEGORY]->(c)
                     """, title=title, category=category)
@@ -78,6 +79,7 @@ def create_nodes_from_meals():
                 if area:
                     session.run("""
                         MERGE (a:Area {title: $area})
+                        WITH a
                         MATCH (m:Meal {title: $title})
                         MERGE (m)-[:BELONGS_TO_AREA]->(a)
                     """, title=title, area=area)

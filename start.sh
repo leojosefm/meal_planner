@@ -14,4 +14,12 @@ if [ $? -ne 0 ]; then
   exit 1
 fi
 
+echo "load_meal_category.py completed successfully. Starting create_has_ingredient_relations.py..."
+python create_has_ingredient_relations.py
+if [ $? -ne 0 ]; then
+  echo "create_has_ingredient_relations.py failed. Exiting."
+  exit 1
+fi
+
+
 echo "All scripts completed successfully."

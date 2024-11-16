@@ -7,6 +7,7 @@ WORKDIR /app
 # Copy Python script and requirements (if any)
 COPY load_ingredient.py .
 COPY load_meal_category.py .
+COPY create_has_ingredient_relations.py .
 COPY requirements.txt .
 COPY start.sh .
 

@@ -1,2 +1,7 @@
 neo4j
 requests
+python-dotenv
+langchain
+openai
+pydantic
+typing-extensions
